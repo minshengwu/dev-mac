@@ -1,0 +1,22 @@
+version: '3.1'
+services:
+  mysql-master:
+    image: mariadb:10.5
+    container_name: mysql-master
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/master/conf:/etc/mysql/conf.d
+      - ./mysql/master/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+
+  redis-master:
+    image: redis:6.2-alpine
+    container_name: redis-master
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/master/conf:/usr/local/etc/redis
+      - ./redis/master/data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
