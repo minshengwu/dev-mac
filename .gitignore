@@ -1,3 +1,12 @@
 *.DS_Store
+
 mysql/master/data/*
 redis/master/data/*
+
+
+zookeeper/zk01/data/*
+zookeeper/zk02/data/*
+zookeeper/zk03/data/*
+zookeeper/zk01/datalog/*
+zookeeper/zk02/datalog/*
+zookeeper/zk03/datalog/*

@@ -20,3 +20,42 @@ services:
       - ./redis/master/conf:/usr/local/etc/redis
       - ./redis/master/data:/data
     command: redis-server /usr/local/etc/redis/redis.conf
+
+  zk01:
+    image: zookeeper:3.7
+    container_name: zk01
+    hostname: zk01
+    ports:
+      - 2181:2181
+    volumes:
+      - ./zookeeper/zk01/conf/zoo.cfg:/conf/zoo.cfg
+      - ./zookeeper/zk01/data:/data
+      - ./zookeeper/zk01/datalog:/datalog
+    environment:
+      ZOO_MY_ID: 1
+
+  zk02:
+    image: zookeeper:3.7
+    container_name: zk02
+    hostname: zk02
+    ports:
+      - 2182:2181
+    volumes:
+      - ./zookeeper/zk02/conf/zoo.cfg:/conf/zoo.cfg
+      - ./zookeeper/zk02/data:/data
+      - ./zookeeper/zk02/datalog:/datalog
+    environment:
+      ZOO_MY_ID: 2
+
+  zk03:
+    image: zookeeper:3.7
+    container_name: zk03
+    hostname: zk03
+    ports:
+      - 2183:2181
+    volumes:
+      - ./zookeeper/zk03/conf/zoo.cfg:/conf/zoo.cfg
+      - ./zookeeper/zk03/data:/data
+      - ./zookeeper/zk03/datalog:/datalog
+    environment:
+      ZOO_MY_ID: 3
