@@ -3,6 +3,8 @@ services:
   mysql-master:
     image: mariadb:10.5
     container_name: mysql-master
+    hostname: mysql-master
+    restart: always
     ports:
       - 3306:3306
     volumes:
@@ -10,10 +12,29 @@ services:
       - ./mysql/master/data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=123456
+  
+  mysql-slave:
+    image: mariadb:10.5
+    container_name: mysql-slave
+    hostname: mysql-slave
+    restart: always
+    depends_on:
+      - mysql-master
+    ports:
+      - 3307:3306
+    volumes:
+      - ./mysql/slave/conf:/etc/mysql/conf.d
+      - ./mysql/slave/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+
+
 
   redis-master:
     image: redis:6.2-alpine
     container_name: redis-master
+    hostname: redis-master
+    restart: always
     ports:
       - 6379:6379
     volumes:
@@ -21,10 +42,27 @@ services:
       - ./redis/master/data:/data
     command: redis-server /usr/local/etc/redis/redis.conf
 
+  redis-slave:
+    image: redis:6.2-alpine
+    container_name: redis-slave
+    hostname: redis-slave
+    restart: always
+    depends_on:
+      - redis-master
+    ports:
+      - 6380:6379
+    volumes:
+      - ./redis/slave/conf:/usr/local/etc/redis
+      - ./redis/slave/data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+
+
   zk01:
     image: zookeeper:3.7
     container_name: zk01
     hostname: zk01
+    restart: always
     ports:
       - 2181:2181
     volumes:
@@ -38,6 +76,7 @@ services:
     image: zookeeper:3.7
     container_name: zk02
     hostname: zk02
+    restart: always
     ports:
       - 2182:2181
     volumes:
@@ -51,6 +90,7 @@ services:
     image: zookeeper:3.7
     container_name: zk03
     hostname: zk03
+    restart: always
     ports:
       - 2183:2181
     volumes:

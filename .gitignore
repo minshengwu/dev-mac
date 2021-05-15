@@ -1,7 +1,11 @@
 *.DS_Store
 
 mysql/master/data/*
+mysql/slave/data/*
+
+
 redis/master/data/*
+redis/slave/data/*
 
 
 zookeeper/zk01/data/*
