@@ -14,3 +14,8 @@ zookeeper/zk03/data/*
 zookeeper/zk01/datalog/*
 zookeeper/zk02/datalog/*
 zookeeper/zk03/datalog/*
+
+
+kafka/node01/data/*
+kafka/node02/data/*
+kafka/node03/data/*
