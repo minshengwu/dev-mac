@@ -1,0 +1,4 @@
+rabbitmqctl stop_app
+rabbitmqctl join_cluster rabbit@rabbit01
+rabbitmqctl start_app
+exit

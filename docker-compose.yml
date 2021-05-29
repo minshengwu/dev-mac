@@ -13,21 +13,35 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=123456
   
-  mysql-slave:
+  mysql-slave-1:
     image: mariadb:10.5
-    container_name: mysql-slave
-    hostname: mysql-slave
+    container_name: mysql-slave-1
+    hostname: mysql-slave-1
     restart: always
     depends_on:
       - mysql-master
     ports:
       - 3307:3306
     volumes:
-      - ./mysql/slave/conf:/etc/mysql/conf.d
-      - ./mysql/slave/data:/var/lib/mysql
+      - ./mysql/slave01/conf:/etc/mysql/conf.d
+      - ./mysql/slave01/data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=123456
 
+  mysql-slave-2:
+    image: mariadb:10.5
+    container_name: mysql-slave-2
+    hostname: mysql-slave-2
+    restart: always
+    depends_on:
+      - mysql-master
+    ports:
+      - 3308:3306
+    volumes:
+      - ./mysql/slave02/conf:/etc/mysql/conf.d
+      - ./mysql/slave02/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
 
 
   redis-master:
@@ -42,18 +56,32 @@ services:
       - ./redis/master/data:/data
     command: redis-server /usr/local/etc/redis/redis.conf
 
-  redis-slave:
+  redis-slave-1:
     image: redis:6.2-alpine
-    container_name: redis-slave
-    hostname: redis-slave
+    container_name: redis-slave-1
+    hostname: redis-slave-1
     restart: always
     depends_on:
       - redis-master
     ports:
       - 6380:6379
     volumes:
-      - ./redis/slave/conf:/usr/local/etc/redis
-      - ./redis/slave/data:/data
+      - ./redis/slave01/conf:/usr/local/etc/redis
+      - ./redis/slave01/data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis-slave-2:
+    image: redis:6.2-alpine
+    container_name: redis-slave-2
+    hostname: redis-slave-2
+    restart: always
+    depends_on:
+      - redis-master
+    ports:
+      - 6381:6379
+    volumes:
+      - ./redis/slave02/conf:/usr/local/etc/redis
+      - ./redis/slave02/data:/data
     command: redis-server /usr/local/etc/redis/redis.conf
 
 
@@ -175,6 +203,42 @@ services:
     environment:
       ZK_HOSTS: zk01:2181
       APPLICATION_SECRET: letmein
+
+
+
+  rabbit01:
+    image: rabbitmq:3.8-management-alpine
+    container_name: rabbit01
+    hostname: rabbit01
+    restart: always
+    ports:
+      - 8080:15672
+      - 5672:5672
+    volumes:
+      - ./rabbitmq/rabbit01/data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+
+  rabbit02:
+    image: rabbitmq:3.8-management-alpine
+    container_name: rabbit02
+    hostname: rabbit02
+    restart: always
+    ports:
+      - 5673:5672
+    volumes:
+      - ./rabbitmq/rabbit02/data:/var/lib/rabbitmq
+
+  rabbit03:
+    image: rabbitmq:3.8-management-alpine
+    container_name: rabbit03
+    hostname: rabbit03
+    restart: always
+    ports:
+      - 5674:5672
+    volumes:
+      - ./rabbitmq/rabbit03/data:/var/lib/rabbitmq
 
 
 
