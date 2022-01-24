@@ -1,4 +1,5 @@
 *.DS_Store
+*.bash_history
 
 mysql/master/data/*
 mysql/slave01/data/*
@@ -31,3 +32,6 @@ kafka/node03/data/*
 es/node01/data/*
 es/node02/data/*
 es/node03/data/*
+
+
+xxl-job/applogs/*

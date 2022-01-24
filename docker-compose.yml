@@ -147,7 +147,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
       KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.14:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.5:9092
       KAFKA_NUM_PARTITIONS: 4
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_DEFAULT_REPLICATION_FACTOR: 2
@@ -171,7 +171,7 @@ services:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
       KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.14:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.5:9093
       KAFKA_NUM_PARTITIONS: 4
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_DEFAULT_REPLICATION_FACTOR: 2
@@ -195,7 +195,7 @@ services:
       KAFKA_BROKER_ID: 3
       KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
       KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.14:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.5:9094
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_DEFAULT_REPLICATION_FACTOR: 2
       KAFKA_NUM_PARTITIONS: 4
@@ -289,4 +289,18 @@ services:
       - ./es/node03/data:/usr/share/elasticsearch/data
     environment:
       ES_JAVA_OPTS: "-Xms256m -Xmx256m"
-  
+ 
+ 
+  xxl-job-admin:
+    image: h295203236/xxl-job-admin:2.3.0-aarch64
+    container_name: xxl-job-admin
+    hostname: xxl-job-admin
+    restart: always
+    depends_on:
+      - mysql-master
+    ports:
+      - 8090:8080
+    volumes:
+      - ./xxl-job/applogs:/data/applogs
+    environment:
+      PARAMS: '--spring.datasource.url=jdbc:mysql://mysql-master:3306/xxl_job?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=root --spring.datasource.password=123456 --spring.mail.host=smtp.qq.com --spring.mail.port=465 --spring.mail.username=1351367889@qq.com --spring.mail.password=ovytixonrhdqbaag --spring.mail.from=1351367889@qq.com'
