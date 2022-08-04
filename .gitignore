@@ -35,3 +35,7 @@ es/node03/data/*
 
 
 xxl-job/applogs/*
+
+hadoop/datanode/*
+hadoop/namenode/*
+hadoop/nodemanager/*

@@ -147,7 +147,7 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
       KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.5:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.3:9092
       KAFKA_NUM_PARTITIONS: 4
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_DEFAULT_REPLICATION_FACTOR: 2
@@ -171,7 +171,7 @@ services:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
       KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.5:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.3:9093
       KAFKA_NUM_PARTITIONS: 4
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_DEFAULT_REPLICATION_FACTOR: 2
@@ -195,7 +195,7 @@ services:
       KAFKA_BROKER_ID: 3
       KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
       KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.5:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.3:9094
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_DEFAULT_REPLICATION_FACTOR: 2
       KAFKA_NUM_PARTITIONS: 4
@@ -304,3 +304,64 @@ services:
       - ./xxl-job/applogs:/data/applogs
     environment:
       PARAMS: '--spring.datasource.url=jdbc:mysql://mysql-master:3306/xxl_job?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=root --spring.datasource.password=123456 --spring.mail.host=smtp.qq.com --spring.mail.port=465 --spring.mail.username=1351367889@qq.com --spring.mail.password=ovytixonrhdqbaag --spring.mail.from=1351367889@qq.com'
+  
+
+  namenode:
+    image: packet23/hadoop-hdfs-namenode:3.3.3
+    container_name: namenode
+    hostname: namenode
+    ports:
+      - 9870:9870
+    volumes:
+      - ./hadoop/conf:/hadoop/etc/hadoop
+      - ./hadoop/namenode:/data
+    restart: always
+
+  datanode:
+    image: packet23/hadoop-hdfs-datanode:3.3.3
+    container_name: datanode
+    hostname: datanode
+    volumes:
+      - ./hadoop/conf:/hadoop/etc/hadoop
+      - ./hadoop/datanode/data:/data
+    restart: always
+    depends_on:
+      - namenode
+
+  resourcemanager:
+    image: packet23/hadoop-yarn-resourcemanager:3.3.3
+    container_name: resourcemanager
+    hostname: resourcemanager
+    ports:
+      - 8088:8088
+    volumes:
+      - ./hadoop/conf:/hadoop/etc/hadoop
+    restart: always
+    depends_on:
+      - namenode
+
+  nodemanager:
+    image: packet23/hadoop-yarn-nodemanager:3.3.3
+    container_name: nodemanager
+    hostname: nodemanager
+    volumes:
+      - ./hadoop/conf:/hadoop/etc/hadoop
+      - ./hadoop/nodemanager:/data
+    restart: always
+    depends_on:
+      - namenode
+      - datanode
+      - resourcemanager
+
+  jobhistoryserver:
+    image: packet23/hadoop-mapred-jobhistoryserver:3.3.3
+    ports:
+      - 19888:19888
+    volumes:
+      - ./hadoop/conf:/hadoop/etc/hadoop
+    restart: always
+    hostname: jobhistoryserver
+    container_name: jobhistoryserver
+    depends_on:
+      - namenode
+      - resourcemanager
