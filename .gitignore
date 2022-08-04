@@ -39,3 +39,5 @@ xxl-job/applogs/*
 hadoop/datanode/*
 hadoop/namenode/*
 hadoop/nodemanager/*
+
+!.gitkeep
