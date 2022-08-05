@@ -13,4 +13,12 @@
     <name>mapreduce.jobhistory.webapp.address</name>
     <value>jobhistoryserver:19888</value>
   </property>
+    <property>
+    <name>mapreduce.jobhistory.intermediate-done-dir</name>
+    <value>/mr-history/tmp</value>
+  </property>
+  <property>
+    <name>mapreduce.jobhistory.done-dir</name>
+    <value>/mr-history/done</value>
+  </property>
 </configuration>

@@ -317,13 +317,24 @@ services:
       - ./hadoop/namenode:/data
     restart: always
 
-  datanode:
+  datanode01:
     image: packet23/hadoop-hdfs-datanode:3.3.3
-    container_name: datanode
-    hostname: datanode
+    container_name: datanode01
+    hostname: datanode01
     volumes:
       - ./hadoop/conf:/hadoop/etc/hadoop
-      - ./hadoop/datanode/data:/data
+      - ./hadoop/datanode01/data:/data
+    restart: always
+    depends_on:
+      - namenode
+
+  datanode02:
+    image: packet23/hadoop-hdfs-datanode:3.3.3
+    container_name: datanode02
+    hostname: datanode02
+    volumes:
+      - ./hadoop/conf:/hadoop/etc/hadoop
+      - ./hadoop/datanode02/data:/data
     restart: always
     depends_on:
       - namenode
@@ -340,17 +351,32 @@ services:
     depends_on:
       - namenode
 
-  nodemanager:
+  nodemanager01:
     image: packet23/hadoop-yarn-nodemanager:3.3.3
-    container_name: nodemanager
-    hostname: nodemanager
+    container_name: nodemanager01
+    hostname: nodemanager01
     volumes:
       - ./hadoop/conf:/hadoop/etc/hadoop
-      - ./hadoop/nodemanager:/data
+      - ./hadoop/nodemanager01:/data
     restart: always
     depends_on:
       - namenode
-      - datanode
+      - datanode01
+      - datanode02
+      - resourcemanager
+
+  nodemanager02:
+    image: packet23/hadoop-yarn-nodemanager:3.3.3
+    container_name: nodemanager02
+    hostname: nodemanager02
+    volumes:
+      - ./hadoop/conf:/hadoop/etc/hadoop
+      - ./hadoop/nodemanager02:/data
+    restart: always
+    depends_on:
+      - namenode
+      - datanode01
+      - datanode02
       - resourcemanager
 
   jobhistoryserver:

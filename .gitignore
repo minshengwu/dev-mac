@@ -36,8 +36,10 @@ es/node03/data/*
 
 xxl-job/applogs/*
 
-hadoop/datanode/*
+hadoop/datanode01/*
+hadoop/datanode02/*
 hadoop/namenode/*
-hadoop/nodemanager/*
+hadoop/nodemanager01/*
+hadoop/nodemanager02/*
 
 !.gitkeep
