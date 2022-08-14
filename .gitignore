@@ -42,4 +42,7 @@ hadoop/namenode/*
 hadoop/nodemanager01/*
 hadoop/nodemanager02/*
 
+nebula/data/*
+nebula/logs/*
+
 !.gitkeep
