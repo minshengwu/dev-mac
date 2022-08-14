@@ -1,0 +1,40 @@
+version: '3.1'
+services:
+  rabbit01:
+    image: rabbitmq:3.8-management-alpine
+    container_name: rabbit01
+    hostname: rabbit01
+    restart: always
+    ports:
+      - 8080:15672
+      - 5672:5672
+    volumes:
+      - ./data/rabbit01:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+
+  rabbit02:
+    image: rabbitmq:3.8-management-alpine
+    container_name: rabbit02
+    hostname: rabbit02
+    restart: always
+    ports:
+      - 5673:5672
+    volumes:
+      - ./data/rabbit02:/var/lib/rabbitmq
+
+  rabbit03:
+    image: rabbitmq:3.8-management-alpine
+    container_name: rabbit03
+    hostname: rabbit03
+    restart: always
+    ports:
+      - 5674:5672
+    volumes:
+      - ./data/rabbit03:/var/lib/rabbitmq
+
+networks:
+  default:
+    external:
+      name: dev_mac_bridge

@@ -1,0 +1,45 @@
+version: '3.1'
+services:
+  es01:
+    image: elasticsearch:7.12.1
+    container_name: es01
+    hostname: es01
+    restart: always
+    ports:
+      - 9200:9200
+    volumes:
+      - ./conf/node01/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./data/node01:/usr/share/elasticsearch/data 
+    environment:
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+
+  es02:
+    image: elasticsearch:7.12.1
+    container_name: es02
+    hostname: es02
+    restart: always
+    ports:
+      - 9201:9200
+    volumes:
+      - ./conf/node02/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./data/node02:/usr/share/elasticsearch/data
+    environment:
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+
+  es03:
+    image: elasticsearch:7.12.1
+    container_name: es03
+    hostname: es03
+    restart: always
+    ports:
+      - 9202:9200
+    volumes:
+      - ./conf/node03/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./data/node03:/usr/share/elasticsearch/data
+    environment:
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+
+networks:
+  default:
+    external:
+      name: dev_mac_bridge

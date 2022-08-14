@@ -1,0 +1,46 @@
+version: '3.1'
+services:
+  redis_master:
+    image: redis:6.2-alpine
+    container_name: redis_master
+    hostname: redis_master
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./conf/master:/usr/local/etc/redis
+      - ./data/master:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis_slave01:
+    image: redis:6.2-alpine
+    container_name: redis_slave01
+    hostname: redis_slave01
+    restart: always
+    depends_on:
+      - redis_master
+    ports:
+      - 6380:6379
+    volumes:
+      - ./conf/slave01:/usr/local/etc/redis
+      - ./data/slave01:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  redis_slave02:
+    image: redis:6.2-alpine
+    container_name: redis_slave02
+    hostname: redis_slave02
+    restart: always
+    depends_on:
+      - redis_master
+    ports:
+      - 6381:6379
+    volumes:
+      - ./conf/slave02:/usr/local/etc/redis
+      - ./data/slave02:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+networks:
+  default:
+    external:
+      name: dev_mac_bridge

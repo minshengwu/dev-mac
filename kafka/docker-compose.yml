@@ -1,0 +1,89 @@
+version: '3.1'
+services:
+  kafka01:
+    image: schrbr/kafka:2.13-2.6.0
+    container_name: kafka01
+    hostname: kafka01
+    restart: always
+    ports:
+      - 9092:9092
+    volumes:
+      - ./data/node01:/kafka
+    depends_on:
+      - zk01
+      - zk02
+      - zk03
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.3:9092
+      KAFKA_NUM_PARTITIONS: 4
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 2
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=1099"
+      JMX_PORT: 1099
+
+  kafka02:
+    image: schrbr/kafka:2.13-2.6.0
+    container_name: kafka02
+    hostname: kafka02
+    restart: always
+    ports:
+      - 9093:9092
+    volumes:
+      - ./data/node02:/kafka
+    depends_on:
+      - zk01
+      - zk02
+      - zk03
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.3:9093
+      KAFKA_NUM_PARTITIONS: 4
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 2
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=1099"
+      JMX_PORT: 1099
+  
+  kafka03:
+    image: schrbr/kafka:2.13-2.6.0
+    container_name: kafka03
+    hostname: kafka03
+    restart: always
+    ports:
+      - 9094:9092
+    volumes:
+      - ./data/node03:/kafka
+    depends_on:
+      - zk01
+      - zk02
+      - zk03
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.1.3:9094
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 2
+      KAFKA_NUM_PARTITIONS: 4
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=1099"
+      JMX_PORT: 1099
+
+  kafka-web:
+    image: scjtqs/kafka-manager
+    container_name: kafka-web
+    hostname: kafka-web
+    restart: always
+    ports:
+      - 9000:9000
+    environment:
+      ZK_HOSTS: zk01:2181
+      APPLICATION_SECRET: letmein
+
+networks:
+  default:
+    external:
+      name: dev_mac_bridge

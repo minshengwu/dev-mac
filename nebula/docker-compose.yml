@@ -1,0 +1,197 @@
+version: '3.1'
+services:
+  metad01:
+    image: vesoft/nebula-metad:v3.2.0
+    hostname: metad01
+    container_name: metad01
+    command:
+      - --meta_server_addrs=metad01:9559,metad02:9559,metad03:9559
+      - --local_ip=metad01
+      - --ws_ip=metad01
+      - --port=9559
+      - --ws_http_port=19559
+      - --data_path=/data/meta
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    volumes:
+      - ./data/meta01:/data/meta
+      - ./logs/meta01:/logs
+    restart: always
+
+  metad02:
+    image: vesoft/nebula-metad:v3.2.0
+    hostname: metad02
+    container_name: metad02
+    command:
+      - --meta_server_addrs=metad01:9559,metad02:9559,metad03:9559
+      - --local_ip=metad02
+      - --ws_ip=metad02
+      - --port=9559
+      - --ws_http_port=19559
+      - --data_path=/data/meta
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    volumes:
+      - ./data/meta02:/data/meta
+      - ./logs/meta02:/logs
+    restart: always
+
+  metad03:
+    image: vesoft/nebula-metad:v3.2.0
+    hostname: metad03
+    container_name: metad03
+    command:
+      - --meta_server_addrs=metad01:9559,metad02:9559,metad03:9559
+      - --local_ip=metad03
+      - --ws_ip=metad03
+      - --port=9559
+      - --ws_http_port=19559
+      - --data_path=/data/meta
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    volumes:
+      - ./data/meta03:/data/meta
+      - ./logs/meta03:/logs
+    restart: always
+
+  storaged01:
+    image: vesoft/nebula-storaged:v3.2.0
+    hostname: storaged01
+    container_name: storaged01
+    command:
+      - --meta_server_addrs=metad01:9559,metad02:9559,metad03:9559
+      - --local_ip=storaged01
+      - --ws_ip=storaged01
+      - --port=9779
+      - --ws_http_port=19779
+      - --data_path=/data/storage
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    depends_on:
+      - metad01
+      - metad02
+      - metad03
+    volumes:
+      - ./data/storage01:/data/storage
+      - ./logs/storage01:/logs
+    restart: always
+
+  storaged02:
+    image: vesoft/nebula-storaged:v3.2.0
+    hostname: storaged02
+    container_name: storaged02
+    command:
+      - --meta_server_addrs=metad01:9559,metad02:9559,metad03:9559
+      - --local_ip=storaged02
+      - --ws_ip=storaged02
+      - --port=9779
+      - --ws_http_port=19779
+      - --data_path=/data/storage
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    depends_on:
+      - metad01
+      - metad02
+      - metad03
+    volumes:
+      - ./data/storage02:/data/storage
+      - ./logs/storage02:/logs
+    restart: always
+
+  storaged03:
+    image: vesoft/nebula-storaged:v3.2.0
+    hostname: storaged03
+    container_name: storaged03
+    command:
+      - --meta_server_addrs=metad01:9559,metad02:9559,metad03:9559
+      - --local_ip=storaged03
+      - --ws_ip=storaged03
+      - --port=9779
+      - --ws_http_port=19779
+      - --data_path=/data/storage
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    depends_on:
+      - metad01
+      - metad02
+      - metad03
+    volumes:
+      - ./data/storage03:/data/storage
+      - ./logs/storage03:/logs
+    restart: always
+
+  graphd01:
+    image: vesoft/nebula-graphd:v3.2.0
+    hostname: graphd01
+    container_name: graphd01
+    command:
+      - --meta_server_addrs=metad01:9559,metad02:9559,metad03:9559
+      - --port=9669
+      - --local_ip=graphd01
+      - --ws_ip=graphd01
+      - --ws_http_port=19669
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    ports:
+      - "9669:9669"
+    depends_on:
+      - storaged01
+      - storaged02
+      - storaged03
+    volumes:
+      - ./logs/graph01:/logs
+    restart: always
+
+  graphd02:
+    image: vesoft/nebula-graphd:v3.2.0
+    hostname: graphd02
+    container_name: graphd02
+    command:
+      - --meta_server_addrs=metad01:9559,metad02:9559,metad03:9559
+      - --port=9669
+      - --local_ip=graphd02
+      - --ws_ip=graphd02
+      - --ws_http_port=19669
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    depends_on:
+      - storaged01
+      - storaged02
+      - storaged03
+    volumes:
+      - ./logs/graph02:/logs
+    restart: always
+
+  graphd03:
+    image: vesoft/nebula-graphd:v3.2.0
+    hostname: graphd03
+    container_name: graphd03
+    command:
+      - --meta_server_addrs=metad01:9559,metad02:9559,metad03:9559
+      - --port=9669
+      - --local_ip=graphd03
+      - --ws_ip=graphd03
+      - --ws_http_port=19669
+      - --log_dir=/logs
+      - --v=0
+      - --minloglevel=0
+    depends_on:
+      - storaged01
+      - storaged02
+      - storaged03
+    volumes:
+      - ./logs/graph03:/logs
+    restart: always
+
+networks:
+  default:
+    external:
+      name: dev_mac_bridge

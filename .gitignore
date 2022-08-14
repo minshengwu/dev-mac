@@ -1,48 +1,26 @@
 *.DS_Store
 *.bash_history
 
-mysql/master/data/*
-mysql/slave01/data/*
-mysql/slave02/data/*
+es/data/*
 
+hadoop/data/*
 
-redis/master/data/*
-redis/slave01/data/*
-redis/slave02/data/*
+kafka/data/*
 
-
-zookeeper/zk01/data/*
-zookeeper/zk02/data/*
-zookeeper/zk03/data/*
-zookeeper/zk01/datalog/*
-zookeeper/zk02/datalog/*
-zookeeper/zk03/datalog/*
-
-
-rabbitmq/rabbit01/data/mnesia/*
-rabbitmq/rabbit02/data/mnesia/*
-rabbitmq/rabbit03/data/mnesia/*
-
-
-kafka/node01/data/*
-kafka/node02/data/*
-kafka/node03/data/*
-
-
-es/node01/data/*
-es/node02/data/*
-es/node03/data/*
-
-
-xxl-job/applogs/*
-
-hadoop/datanode01/*
-hadoop/datanode02/*
-hadoop/namenode/*
-hadoop/nodemanager01/*
-hadoop/nodemanager02/*
+mysql/data/*
 
 nebula/data/*
-nebula/logs/*
+nebula/log/*
+
+portainer/*
+
+rabbitmq/data/*
+
+redis/data/*
+
+xxl-job/logs/*
+
+zookeeper/data/*
+zookeeper/datalog/*
 
 !.gitkeep

@@ -1,0 +1,49 @@
+version: '3.1'
+services:
+  mysql_master:
+    image: mariadb:10.5
+    container_name: mysql_master
+    hostname: mysql_master
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./conf/master:/etc/mysql/conf.d
+      - ./data/master:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+  
+  mysql_slave01:
+    image: mariadb:10.5
+    container_name: mysql_slave01
+    hostname: mysql_slave01
+    restart: always
+    depends_on:
+      - mysql_master
+    ports:
+      - 3307:3306
+    volumes:
+      - ./conf/slave01:/etc/mysql/conf.d
+      - ./data/slave01:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+
+  mysql_slave02:
+    image: mariadb:10.5
+    container_name: mysql_slave02
+    hostname: mysql_slave02
+    restart: always
+    depends_on:
+      - mysql_master
+    ports:
+      - 3308:3306
+    volumes:
+      - ./conf/slave02:/etc/mysql/conf.d
+      - ./data/slave02:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+
+networks:
+  default:
+    external:
+      name: dev_mac_bridge

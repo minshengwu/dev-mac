@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  xxl-job-admin:
+    image: h295203236/xxl-job-admin:2.3.0-aarch64
+    container_name: xxl-job-admin
+    hostname: xxl-job-admin
+    restart: always
+    depends_on:
+      - mysql_master
+    ports:
+      - 8090:8080
+    volumes:
+      - ./logs:/data/applogs
+    environment:
+      PARAMS: '--spring.datasource.url=jdbc:mysql://mysql_master:3306/xxl_job?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=root --spring.datasource.password=123456 --spring.mail.host=smtp.qq.com --spring.mail.port=465 --spring.mail.username=1351367889@qq.com --spring.mail.password=ovytixonrhdqbaag --spring.mail.from=1351367889@qq.com'
+
+networks:
+  default:
+    external:
+      name: dev_mac_bridge
