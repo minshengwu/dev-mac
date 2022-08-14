@@ -15,8 +15,8 @@ services:
       - --v=0
       - --minloglevel=0
     volumes:
-      - ./data/meta01:/data/meta
-      - ./logs/meta01:/logs
+      - ./data/metad01:/data/meta
+      - ./logs/metad01:/logs
     restart: always
 
   metad02:
@@ -34,8 +34,8 @@ services:
       - --v=0
       - --minloglevel=0
     volumes:
-      - ./data/meta02:/data/meta
-      - ./logs/meta02:/logs
+      - ./data/metad02:/data/meta
+      - ./logs/metad02:/logs
     restart: always
 
   metad03:
@@ -53,8 +53,8 @@ services:
       - --v=0
       - --minloglevel=0
     volumes:
-      - ./data/meta03:/data/meta
-      - ./logs/meta03:/logs
+      - ./data/metad03:/data/meta
+      - ./logs/metad03:/logs
     restart: always
 
   storaged01:
@@ -76,8 +76,8 @@ services:
       - metad02
       - metad03
     volumes:
-      - ./data/storage01:/data/storage
-      - ./logs/storage01:/logs
+      - ./data/storaged01:/data/storage
+      - ./logs/storaged01:/logs
     restart: always
 
   storaged02:
@@ -99,8 +99,8 @@ services:
       - metad02
       - metad03
     volumes:
-      - ./data/storage02:/data/storage
-      - ./logs/storage02:/logs
+      - ./data/storaged02:/data/storage
+      - ./logs/storaged02:/logs
     restart: always
 
   storaged03:
@@ -122,8 +122,8 @@ services:
       - metad02
       - metad03
     volumes:
-      - ./data/storage03:/data/storage
-      - ./logs/storage03:/logs
+      - ./data/storaged03:/data/storage
+      - ./logs/storaged03:/logs
     restart: always
 
   graphd01:
@@ -146,7 +146,7 @@ services:
       - storaged02
       - storaged03
     volumes:
-      - ./logs/graph01:/logs
+      - ./logs/graphd01:/logs
     restart: always
 
   graphd02:
@@ -167,7 +167,7 @@ services:
       - storaged02
       - storaged03
     volumes:
-      - ./logs/graph02:/logs
+      - ./logs/graphd02:/logs
     restart: always
 
   graphd03:
@@ -188,7 +188,7 @@ services:
       - storaged02
       - storaged03
     volumes:
-      - ./logs/graph03:/logs
+      - ./logs/graphd03:/logs
     restart: always
 
 networks:

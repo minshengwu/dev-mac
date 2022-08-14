@@ -1,9 +1,9 @@
 version: '3.1'
 services:
-  xxl-job-admin:
+  xxl_job_admin:
     image: h295203236/xxl-job-admin:2.3.0-aarch64
-    container_name: xxl-job-admin
-    hostname: xxl-job-admin
+    container_name: xxl_job_admin
+    hostname: xxl_job_admin
     restart: always
     depends_on:
       - mysql_master
