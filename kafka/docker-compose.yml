@@ -9,10 +9,6 @@ services:
       - 9092:9092
     volumes:
       - ./data/node01:/kafka
-    depends_on:
-      - zk01
-      - zk02
-      - zk03
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
@@ -33,10 +29,6 @@ services:
       - 9093:9092
     volumes:
       - ./data/node02:/kafka
-    depends_on:
-      - zk01
-      - zk02
-      - zk03
     environment:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
@@ -57,10 +49,6 @@ services:
       - 9094:9092
     volumes:
       - ./data/node03:/kafka
-    depends_on:
-      - zk01
-      - zk02
-      - zk03
     environment:
       KAFKA_BROKER_ID: 3
       KAFKA_ZOOKEEPER_CONNECT: zk01:2181/kafka
@@ -72,13 +60,13 @@ services:
       KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.rmi.port=1099"
       JMX_PORT: 1099
 
-  kafka-web:
+  kafka_web:
     image: scjtqs/kafka-manager
-    container_name: kafka-web
-    hostname: kafka-web
+    container_name: kafka_web
+    hostname: kafka_web
     restart: always
     ports:
-      - 9000:9000
+      - 9001:9000
     environment:
       ZK_HOSTS: zk01:2181
       APPLICATION_SECRET: letmein

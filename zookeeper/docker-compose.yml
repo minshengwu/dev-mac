@@ -11,6 +11,7 @@ services:
       - ./conf/zk01/zoo.cfg:/conf/zoo.cfg
       - ./data/zk01:/data
       - ./datalog/zk01:/datalog
+      - ./logs/zk01:/logs
     environment:
       ZOO_MY_ID: 1
 
@@ -25,6 +26,7 @@ services:
       - ./conf/zk02/zoo.cfg:/conf/zoo.cfg
       - ./data/zk02:/data
       - ./datalog/zk02:/datalog
+      - ./logs/zk02:/logs
     environment:
       ZOO_MY_ID: 2
 
@@ -39,6 +41,7 @@ services:
       - ./conf/zk03/zoo.cfg:/conf/zoo.cfg
       - ./data/zk03:/data
       - ./datalog/zk03:/datalog
+      - ./logs/zk03:/logs
     environment:
       ZOO_MY_ID: 3
 

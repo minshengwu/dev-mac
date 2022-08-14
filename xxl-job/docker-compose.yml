@@ -5,8 +5,6 @@ services:
     container_name: xxl_job_admin
     hostname: xxl_job_admin
     restart: always
-    depends_on:
-      - mysql_master
     ports:
       - 8090:8080
     volumes:

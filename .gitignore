@@ -10,7 +10,7 @@ kafka/data/*
 mysql/data/*
 
 nebula/data/*
-nebula/log/*
+nebula/logs/*
 
 portainer/*
 
@@ -22,5 +22,6 @@ xxl-job/logs/*
 
 zookeeper/data/*
 zookeeper/datalog/*
+zookeeper/logs/*
 
 !.gitkeep
