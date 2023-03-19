@@ -191,17 +191,7 @@ services:
       - ./logs/graphd03:/logs
     restart: always
 
-  nebula_studio:
-    image: vesoft/nebula-graph-studio:v3.4.1
-    hostname: nebula_studio
-    container_name: nnebula_studio
-    environment:
-      USER: root
-    ports:
-      - 7001:7001
-    restart: always
-
 networks:
   default:
-    external:
-      name: dev_mac_bridge
+    external: true
+    name: dev_mac_bridge

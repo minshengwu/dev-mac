@@ -42,5 +42,5 @@ services:
 
 networks:
   default:
-    external:
-      name: dev_mac_bridge
+    name: dev_mac_bridge
+    external: true
